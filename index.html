@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LaTine — Langoși, Pizza & Plăcinte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#B3261E; --wine:#3A0D12; --gold:#F2C230;
+  --text:#3A0D12; --muted:#7A4A4E; --line:#EBCFCB; --bg:#FFFFFF; --card:#FFFFFF; --soft:#FBEDEB; --bar:#3A0D12; --accent:#B3261E;
+  --display:"Rubik", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --text:#F8E9E7; --muted:#C9A3A0; --line:#4A2226; --bg:#1E0B0D; --card:#2A1215; --soft:#2A1215; --bar:#7E1812; --accent:#F26B5E;
+  }
+}
+:root[data-theme="dark"]{
+  --text:#F8E9E7; --muted:#C9A3A0; --line:#4A2226; --bg:#1E0B0D; --card:#2A1215; --soft:#2A1215; --bar:#7E1812; --accent:#F26B5E;
+}
+[hidden]{display:none !important}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:1.0625rem;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.hero :focus-visible{outline-color:var(--gold)}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.25rem}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:.6rem}
+.brand{font-family:var(--display);font-weight:900;font-size:1.5rem;letter-spacing:-.02em;text-decoration:none;color:var(--accent);flex:1;min-width:0}
+.tools{display:flex;gap:.45rem;flex:0 0 auto}
+.pill{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .85rem;border-radius:999px;border:2px solid var(--text);background:transparent;color:var(--text);text-decoration:none;font-weight:600;font-size:.9rem;white-space:nowrap}
+.lang{border-color:var(--line);background:var(--soft)}
+
+/* Hero */
+.hero{background:var(--red);color:#fff;overflow:hidden}
+.hero .wrap{padding-top:2.5rem;padding-bottom:2.5rem;display:grid;gap:2rem;grid-template-columns:1fr;align-items:center}
+@media (min-width:820px){.hero .wrap{grid-template-columns:1.1fr .9fr;padding-top:3.5rem;padding-bottom:3.5rem}}
+.wordmark{font-family:var(--display);font-weight:900;font-size:clamp(4rem,17vw,8.5rem);line-height:.85;letter-spacing:-.045em;margin:0}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);line-height:1.12;margin:.9rem 0 0;max-width:20ch}
+.hero .sub{max-width:32rem;margin:1rem 0 1.5rem;font-size:1.08rem;opacity:.95}
+.ctas{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.4rem;border-radius:999px;border:0;font-weight:700;text-decoration:none;font-size:1rem}
+.btn-gold{background:var(--gold);color:#3A0D12}
+.btn-line{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px #fff}
+
+.best{background:#fff;color:#3A0D12;border-radius:28px;padding:1.25rem 1.25rem 1.4rem;position:relative}
+.best .tag{display:inline-block;background:var(--gold);color:#3A0D12;font-weight:700;font-size:.85rem;padding:.25rem .7rem;border-radius:999px}
+.best svg{display:block;width:100%;max-width:300px;height:auto;margin:.5rem auto .25rem}
+.best h2{font-family:var(--display);font-weight:800;font-size:1.55rem;line-height:1.1;margin:.25rem 0 .35rem}
+.best p{margin:0 0 1rem;color:#7A4A4E}
+.best .row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.best .bprice{font-family:var(--display);font-weight:800;font-size:1.6rem}
+.best .add{border-color:#3A0D12;color:#3A0D12;background:var(--gold);border-color:var(--gold);padding:.6rem 1.1rem;font-size:1rem}
+
+.perks{border-bottom:1px solid var(--line)}
+.perks ul{list-style:none;margin:0;padding:1rem 0;display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;justify-content:space-between}
+.perks li{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.98rem}
+.perks li::before{content:"";width:.6rem;height:.6rem;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 35%,transparent)}
+
+section{padding:3rem 0}
+h2.sec{font-family:var(--display);font-weight:800;font-size:clamp(2rem,6vw,2.7rem);letter-spacing:-.02em;margin:0 0 .5rem;line-height:1.05}
+.lead{color:var(--muted);margin:0 0 1.25rem;max-width:40rem}
+.cats{position:sticky;top:calc(env(safe-area-inset-top,0px) + 60px);z-index:10;background:var(--bg);display:flex;gap:.5rem;overflow-x:auto;padding:.75rem 0;margin-bottom:.5rem;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats a{flex:0 0 auto;padding:.45rem 1rem;border-radius:999px;background:var(--soft);text-decoration:none;font-weight:600;font-size:.95rem}
+.cat{margin-top:1.75rem}
+.cat h3{font-family:var(--display);font-weight:800;font-size:1.55rem;margin:0 0 .5rem;display:flex;align-items:baseline;flex-wrap:wrap;gap:.2rem .6rem;color:var(--accent)}
+.cat h3 small{font-family:var(--body);font-size:.95rem;color:var(--muted);font-weight:500}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:0 2rem}
+.item{display:grid;grid-template-columns:1fr auto;gap:.25rem 1rem;padding:1rem 0;border-bottom:1px dashed var(--line)}
+.item h4{margin:0;font-size:1.08rem;font-weight:700}
+.item .badge{display:inline-block;margin-left:.4rem;background:var(--gold);color:#3A0D12;font-size:.75rem;font-weight:700;padding:.1rem .5rem;border-radius:999px;vertical-align:.12em}
+.item p{margin:0;color:var(--muted);font-size:.95rem;grid-column:1/2}
+.price{font-weight:700;white-space:nowrap}
+.qty{grid-column:2/3;grid-row:2/3;align-self:end;justify-self:end}
+.add{padding:.4rem .95rem;border-radius:999px;border:2px solid var(--text);background:transparent;color:var(--text);font-weight:700;font-size:.9rem}
+.stepper{display:inline-flex;align-items:center;border-radius:999px;background:var(--red);color:#fff}
+.stepper button{width:2.3rem;height:2.3rem;border:0;background:transparent;color:#fff;font-size:1.2rem;font-weight:700}
+.stepper span{min-width:1.4rem;text-align:center;font-weight:700}
+
+.about{background:var(--soft)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:2rem}
+.locs{display:grid;gap:1.25rem}
+.loc h3{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0 0 .2rem;color:var(--accent)}
+.loc p{margin:0;color:var(--muted)}
+.loc a{font-weight:600;color:var(--text)}
+footer{padding:2rem 0 7rem;color:var(--muted);font-size:.9rem}
+
+.cartbar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom,0px));background:var(--bar);display:flex;justify-content:center;transform:translateY(110%);transition:transform .25s ease}
+.cartbar.show{transform:none}
+@media (prefers-reduced-motion: reduce){.cartbar{transition:none}}
+.cartbar button{width:100%;max-width:36rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:var(--gold);color:#3A0D12;border:0;border-radius:999px;padding:.9rem 1.3rem;font-weight:700;font-size:1.02rem}
+
+.scrim{position:fixed;inset:0;background:rgba(30,6,8,.55);z-index:40;display:none}
+.scrim.open{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;max-height:88%;overflow:auto;background:var(--bg);border-radius:22px 22px 0 0;padding:1.25rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom,0px));display:none;max-width:40rem;margin:0 auto}
+.sheet.open{display:block}
+.sheet header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.sheet h2{font-family:var(--display);font-weight:800;font-size:1.8rem;margin:0}
+.x{border:0;background:var(--soft);color:var(--text);width:2.4rem;height:2.4rem;border-radius:50%;font-size:1.2rem}
+.lines{list-style:none;margin:0;padding:0}
+.lines li{display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-bottom:1px dashed var(--line)}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:1.15rem;padding:.9rem 0 .4rem}
+.upsell{background:var(--soft);border-radius:14px;padding:.8rem .9rem;margin:.5rem 0 .25rem}
+.upsell b{display:block;margin-bottom:.5rem}
+.upsell .chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.upsell button{border:1.5px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:.4rem .85rem;font-weight:600;font-size:.92rem}
+label{display:block;font-weight:600;margin:.9rem 0 .3rem;font-size:.95rem}
+input[type=text],textarea{width:100%;padding:.75rem .85rem;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:1rem}
+textarea{min-height:4.5rem;resize:vertical}
+.seg{display:flex;gap:.5rem}
+.seg label{flex:1;margin:0;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;font-weight:600}
+.seg input,.pick input{accent-color:var(--red)}
+.seg label:has(input:checked),.pick label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb, var(--red) 12%, transparent)}
+.pick{display:grid;gap:.5rem}
+.pick label{margin:0;display:flex;gap:.7rem;align-items:flex-start;padding:.8rem .9rem;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;font-weight:400}
+.pick input{margin-top:.3rem}
+.pick b{display:block}
+.pick span{color:var(--muted);font-size:.92rem}
+.actions{display:grid;gap:.6rem;margin-top:1.25rem}
+.actions .btn{width:100%}
+.btn-red{background:var(--red);color:#fff;font-size:1.08rem;padding:1rem 1.4rem}
+.btn-soft{background:var(--soft);color:var(--text)}
+.step{margin:1rem 0 1.5rem}
+.steph{display:flex;align-items:center;gap:.6rem;margin:0 0 .75rem;font-size:1.05rem}
+.steph span{display:inline-grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--red);color:#fff;font-weight:700;font-size:.9rem;flex:0 0 auto}
+.lcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.75rem}
+.auto{margin:0 0 .7rem;font-weight:600}
+.lcard{position:relative;border:2px solid var(--line);background:var(--card);border-radius:18px;padding:.9rem 1.1rem}
+.lcard b{display:block;font-family:var(--display);font-weight:800;font-size:1.2rem}
+.lcard .a{display:block;color:var(--muted);font-size:.93rem;margin-top:.15rem}
+.lcard .st{display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;font-weight:600;font-size:.9rem}
+.lcard .st::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:#2E9E5B}
+.lcard.closed{opacity:.62}
+.cat.off .items{opacity:.55}
+.unav{margin:-.2rem 0 .4rem;font-weight:600;color:var(--accent);font-size:.93rem}
+.soldout{font-size:.82rem;font-weight:600;color:var(--muted);white-space:nowrap}
+.lcard.closed .st::before{background:var(--muted)}
+.lcard .nt{display:block;font-size:.85rem;color:var(--muted);margin-top:.35rem}
+.lcard[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--red) 10%,var(--card))}
+.lcard[aria-pressed="true"]::after{content:"✓";position:absolute;top:.8rem;right:1rem;width:1.6rem;height:1.6rem;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font-weight:700}
+.notice{background:var(--soft);border-radius:12px;padding:.7rem .9rem;margin:0 0 .5rem;font-weight:600;font-size:.95rem}
+.from{display:flex;justify-content:space-between;align-items:center;gap:.8rem;background:var(--soft);border-radius:12px;padding:.75rem .9rem;margin:.9rem 0 0}
+.from span{font-size:.85rem;color:var(--muted);display:block}
+.from b{display:block}
+.from button{border:1.5px solid var(--line);background:var(--bg);color:var(--text);font-weight:700;border-radius:999px;padding:.5rem .8rem;white-space:nowrap}
+.btn[disabled]{opacity:.6;cursor:wait}
+.doneid{font-family:var(--display);font-weight:800;font-size:2rem;color:var(--accent);margin:.5rem 0 0}
+.note{font-size:.88rem;color:var(--muted);margin:.75rem 0 0}
+.err{color:var(--accent);font-weight:600;font-size:.92rem;min-height:1.2em;margin:.5rem 0 0}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">LaTine</a>
+    <div class="tools">
+      <button class="pill lang" id="langBtn" type="button"></button>
+      <a class="pill" href="#visit">📞 <span data-t="call"></span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="wordmark">LaTine</p>
+        <h1 data-t="h1"></h1>
+        <p class="sub" data-t="sub"></p>
+        <div class="ctas">
+          <a class="btn btn-gold" href="#menu" data-t="seeMenu"></a>
+          <a class="btn btn-line" href="#visit" data-t="callOrder"></a>
+        </div>
+      </div>
+
+      <div class="best">
+        <span class="tag" data-t="bestTag"></span>
+        <svg viewBox="0 0 300 190" role="img" aria-labelledby="langosTitle">
+          <title id="langosTitle">Langoș</title>
+          <ellipse cx="150" cy="170" rx="118" ry="12" fill="#3A0D12" opacity=".12"/>
+          <path d="M40 98c-6-34 26-66 70-72 22-3 38 4 58 2 34-4 72 10 88 40 14 28 4 62-26 78-24 13-48 10-72 14-26 4-48 16-76 6-26-9-38-40-42-68z" fill="#E9A93A"/>
+          <path d="M58 98c-4-26 22-50 56-55 18-3 32 3 48 1 28-3 58 8 70 31 11 22 3 48-21 60-19 10-38 8-57 11-21 3-38 12-60 4-20-7-33-30-36-52z" fill="#F6C766"/>
+          <path d="M92 86c12-16 38-22 60-18 20 3 44 0 58 14 12 12 6 30-10 38-18 9-38 6-56 10-20 4-40 2-50-12-8-10-8-22-2-32z" fill="#FFF7EA"/>
+          <g fill="#F2C230" stroke="#E0A81C" stroke-width="1">
+            <rect x="100" y="84" width="22" height="5" rx="2.5" transform="rotate(-18 111 86)"/>
+            <rect x="140" y="76" width="24" height="5" rx="2.5" transform="rotate(12 152 78)"/>
+            <rect x="176" y="92" width="22" height="5" rx="2.5" transform="rotate(-8 187 94)"/>
+            <rect x="120" y="108" width="24" height="5" rx="2.5" transform="rotate(20 132 110)"/>
+            <rect x="162" y="112" width="20" height="5" rx="2.5" transform="rotate(-24 172 114)"/>
+            <rect x="96" y="104" width="16" height="5" rx="2.5" transform="rotate(6 104 106)"/>
+            <rect x="150" y="96" width="18" height="5" rx="2.5" transform="rotate(-40 159 98)"/>
+          </g>
+          <g fill="#FFFFFF" stroke="#E8DCC6" stroke-width="1">
+            <circle cx="132" cy="94" r="3"/><circle cx="170" cy="84" r="2.5"/><circle cx="190" cy="108" r="3"/><circle cx="114" cy="118" r="2.5"/>
+          </g>
+        </svg>
+        <h2 data-t="bestName"></h2>
+        <p data-t="bestDesc"></p>
+        <div class="row">
+          <span class="bprice" id="bestPrice"></span>
+          <div class="qty" data-id="l2" data-big="1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="perks">
+    <div class="wrap">
+      <ul>
+        <li data-t="perk1"></li>
+        <li data-t="perk2"></li>
+        <li data-t="perk3"></li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <h2 class="sec" data-t="menu"></h2>
+      <p class="lead" data-t="lead"></p>
+      <div class="step" id="pickLoc">
+        <p class="auto" data-t="autoInfo"></p>
+        <div class="lcards" id="lcards"></div>
+      </div>
+      <p class="notice" id="notice" role="status" hidden></p>
+      <nav class="cats" id="cats"></nav>
+      <div id="menuList"></div>
+    </div>
+  </section>
+
+  <section class="about" id="visit">
+    <div class="wrap two">
+      <div>
+        <h2 class="sec" data-t="about"></h2>
+        <p data-t="about1"></p>
+        <p data-t="about2"></p>
+      </div>
+      <div>
+        <h2 class="sec" data-t="visit"></h2>
+        <div class="locs" id="locs"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="yr"></span> LaTine. <span data-t="footer"></span></div>
+</footer>
+
+<div class="cartbar" id="cartbar">
+  <button id="openCart" type="button"><span id="cartCount"></span><span><span data-t="viewOrder"></span> · <span id="cartTotal"></span></span></button>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <header>
+    <h2 id="sheetTitle"></h2>
+    <button class="x" id="closeCart" type="button" aria-label="✕">✕</button>
+  </header>
+  <div id="orderForm">
+    <ul class="lines" id="lines"></ul>
+    <div class="upsell" id="upsell" hidden>
+      <b data-t="upsell"></b>
+      <div class="chips" id="upsellChips"></div>
+    </div>
+    <div class="total"><span data-t="total"></span><span id="sheetTotal"></span></div>
+
+    <div class="from" id="fromBox"></div>
+
+    <label for="cname" data-t="yourName"></label>
+    <input type="text" id="cname" autocomplete="name">
+
+    <label for="cphone" data-t="yourPhone"></label>
+    <input type="text" id="cphone" inputmode="tel" autocomplete="tel">
+
+    <label data-t="mode"></label>
+    <div class="seg">
+      <label><input type="radio" name="mode" value="delivery" checked> <span data-t="delivery"></span></label>
+      <label><input type="radio" name="mode" value="pickup"> <span data-t="pickup"></span></label>
+    </div>
+
+    <div id="addrWrap">
+      <label for="caddr" data-t="delAddr"></label>
+      <input type="text" id="caddr" autocomplete="street-address">
+    </div>
+
+    <label for="cnotes" data-t="notes"></label>
+    <textarea id="cnotes"></textarea>
+
+    <p class="err" id="err" role="alert"></p>
+    <div class="actions">
+      <button class="btn btn-red" id="sendOrder" type="button"></button>
+      <a class="btn btn-soft" id="sheetCall" href="#visit" data-t="callOrder"></a>
+    </div>
+    <p class="note" data-t="confirmNote"></p>
+  </div>
+  <div id="done" hidden>
+    <p class="doneid" id="doneId"></p>
+    <p data-t="doneText"></p>
+    <div class="actions"><button class="btn btn-red" id="newOrder" type="button" data-t="newOrder"></button></div>
+  </div>
+</div>
+
+<script>
+/* ============ EDITEAZĂ DATELE AICI ============ */
+const CONFIG = {
+  name: "LaTine",
+  currency: "RON",
+  orderLanguage: "ro",             // limba mesajului de comandă (pentru personal și livrator)
+  webhookUrl: "https://hook.eu2.make.com/cuf2wsc8j28wpabuyb4drut88lwskqed",                  // URL-ul webhook-ului din Make.com
+  courierPhone: "+40000000009",    // trimis doar către Make.com, NU e afișat clienților
+  defaultLocation: "loc2",         // folosită când nu știm unde e clientul
+  locations: [
+    // open: zilele (0 = duminică … 6 = sâmbătă) și orele când se pot plasa comenzi; null = oricând
+    // hide: categoriile de meniu care NU se vând la această locație
+    { id:"loc1", name:"LaTine Vatsman",
+      address:{ ro:"Vatsman Corunca, vizavi de Restaurant Lyra", hu:"Vatsman, Koronka, a Lyra étteremmel szemben" },
+      phone:"+40000000001", phoneDisplay:"+40 000 000 001",
+      lat:46.5009, lng:24.6316,        // aproximativ: vizavi de Restaurant Lyra
+      open:{ days:[6,0], from:"10:00", to:"18:00" },
+      hours:{ ro:"Sâmbătă–Duminică, 10:00–18:00", hu:"Szombat–Vasárnap, 10:00–18:00" },
+      hide:[], note:null },
+    { id:"loc2", name:"LaTine Cetate",
+      address:{ ro:"Cetatea Târgu Mureș", hu:"Marosvásárhelyi vár" },
+      phone:"+40000000002", phoneDisplay:"+40 000 000 002",
+      lat:46.5480, lng:24.5680,        // Cetatea Târgu Mureș
+      open:null,
+      hours:null,
+      hide:["pizza"], note:{ ro:"Aici nu servim pizza.", hu:"Itt nem kapható pizza." } }
+  ]
+};
+
+const MENU = [
+  { id:"langos", cat:{ro:"Langoși",hu:"Lángos"}, note:{ro:"prăjiți la comandă",hu:"rendelésre sütve"}, items:[
+    { id:"l1", price:35, ro:["Langoș cu usturoi","Unt cu usturoi și un praf de sare."], hu:["Fokhagymás lángos","Fokhagymás vaj és egy csipet só."] },
+    { id:"l2", price:40, best:true, ro:["Langoș cu cașcaval, smântână și usturoi","Clasicul: smântână, usturoi și mult cașcaval ras."], hu:["Sajtos-tejfölös-fokhagymás lángos","A klasszikus: tejföl, fokhagyma és sok reszelt sajt."] },
+    { id:"l3", price:45, ro:["Langoș cu șuncă și cașcaval","Plin de șuncă și cașcaval topit."], hu:["Sonkás-sajtos lángos","Sonkával és olvasztott sajttal megrakva."] }
+  ]},
+  { id:"pizza", cat:{ro:"Pizza",hu:"Pizza"}, note:{ro:"toate la 54 RON",hu:"mind 54 RON"}, items:[
+    { id:"p1", price:54, ro:["Margherita","Sos de roșii, mozzarella, busuioc."], hu:["Margherita","Paradicsomszósz, mozzarella, bazsalikom."] },
+    { id:"p2", price:54, ro:["Capricciosa","Șuncă, ciuperci, măsline, mozzarella."], hu:["Capricciosa","Sonka, gomba, olajbogyó, mozzarella."] },
+    { id:"p3", price:54, ro:["Salam și ardei","Salam picant, ardei copt, ceapă."], hu:["Szalámis-paprikás","Csípős szalámi, sült paprika, hagyma."] }
+  ]},
+  { id:"placinte", cat:{ro:"Plăcinte",hu:"Pite"}, note:{ro:"calde, din cuptor",hu:"melegen, sütőből"}, items:[
+    { id:"c1", price:30, ro:["Plăcintă cu mere","Mere cu scorțișoară."], hu:["Almás pite","Fahéjas alma."] },
+    { id:"c2", price:35, ro:["Plăcintă cu brânză dulce","Brânză dulce cu stafide și vanilie."], hu:["Túrós pite","Édes túró mazsolával és vaníliával."] },
+    { id:"c3", price:45, ro:["Plăcintă cu vișine și brânză","Vișine acrișoare și brânză dulce."], hu:["Meggyes-túrós pite","Savanykás meggy és édes túró."] }
+  ]},
+  { id:"drinks", cat:{ro:"Băuturi",hu:"Italok"}, note:{ro:"",hu:""}, items:[
+    { id:"d1", price:12, drink:true, ro:["Apă","Plată sau minerală."], hu:["Víz","Szénsavmentes vagy szénsavas."] },
+    { id:"d2", price:17, drink:true, ro:["Suc","Întreabă de sortimentul zilei."], hu:["Üdítő","Kérdezd a napi kínálatot."] },
+    { id:"d3", price:18, drink:true, ro:["Limonadă de casă","Lămâie, mentă, puțină miere."], hu:["Házi limonádé","Citrom, menta, egy kis méz."] }
+  ]}
+];
+
+const T = {
+  ro:{
+    switchTo:"Magyarul", call:"Sună",
+    h1:"Mâncare caldă, făcută acum și adusă la tine.",
+    sub:"Langoși crocanți, pizza și plăcinte calde, pregătite când comanzi. Ridici de la noi sau îți livrăm.",
+    seeMenu:"Comandă acum", callOrder:"Sună pentru comandă",
+    bestTag:"Cel mai comandat",
+    bestName:"Langoș cu cașcaval, smântână și usturoi",
+    bestDesc:"Pufos pe dinăuntru, crocant pe margini, cu smântână, usturoi și mult cașcaval.",
+    perk1:"Gătit la comandă, nu ținut la cald", perk2:"Ridicare sau livrare", perk3:"Două locații: Vatsman Corunca și Cetate",
+    menu:"Meniu", lead:"Alege ce-ți place, apasă Adaugă și trimite comanda în mai puțin de un minut.",
+    add:"Adaugă", addBig:"Adaugă în comandă", best:"Cel mai comandat",
+    about:"Despre noi",
+    about1:"LaTine e o bucătărie mică din Târgu Mureș, cu mâncarea cu care am crescut. Langoșii se prăjesc când comanzi, pizza iese direct din cuptor, iar plăcintele sunt calde.",
+    about2:"Totul se face la comandă, așa că dă-ne câteva minute. Merită.",
+    visit:"Ne găsești", phone:"Telefon",
+    footer:"Prețurile și disponibilitatea se pot schimba.",
+    viewOrder:"Vezi comanda", yourOrder:"Comanda ta", total:"Total",
+    upsell:"Adaugi și ceva de băut?",
+    autoInfo:"Nu trebuie să alegi locația: pizza vine de la Vatsman, restul de la locația deschisă cea mai apropiată de tine.",
+    preparedAt:"Comanda se pregătește la", useGps:"Folosește locația mea",
+    whySpecial:"Singura locație deschisă care are tot ce ai ales.", whyOnly:"Singura locație deschisă acum.",
+    whyNear:"Cea mai apropiată de tine (~{km} km).", whyDefault:"Apasă butonul ca să alegem locația cea mai apropiată.",
+    whyDenied:"Nu am putut afla unde ești, așa că am ales locația din centru.", locating:"Căutăm locația ta…",
+    onlyAt:"Doar la {loc}: {h}.", unavailable:"Indisponibil acum",
+    errMix:"Produsele alese nu se găsesc împreună la nicio locație deschisă acum.",
+    pickTitle:"Alege locația", from:"Comanzi de la", change:"Schimbă",
+    openUntil:"Deschis acum · până la {t}", openAny:"Primim comenzi", closedNext:"Închis acum · deschidem {d} la {t}",
+    today:"azi", tomorrow:"mâine", days:["duminică","luni","marți","miercuri","joi","vineri","sâmbătă"],
+    chooseFirst:"Alege mai întâi locația de mai sus.", removed:"Am scos din coș produsele care nu se vând la această locație.",
+    errClosed:"Locația aleasă e închisă acum. Alege altă locație.", allClosed:"Momentan toate locațiile sunt închise.",
+    whichLoc:"De la ce locație comanzi?", yourName:"Numele tău", yourPhone:"Telefonul tău",
+    mode:"Ridicare sau livrare", pickup:"Ridic eu", delivery:"Livrare",
+    delAddr:"Adresa de livrare", notes:"Observații (opțional)",
+    notesPh:"Alergii, usturoi în plus, sunați la interfon…",
+    send:"Trimite comanda", sending:"Se trimite…",
+    confirmNote:"Te sunăm sau îți scriem pentru confirmare. Plata se face la ridicare sau la livrare.",
+    doneTitle:"Comandă trimisă!", doneText:"Te contactăm în curând pentru confirmare. Păstrează numărul comenzii de mai sus.",
+    doneId:"Comanda", newOrder:"Comandă nouă",
+    errLoc:"Alege locația de la care comanzi.", errName:"Adaugă numele tău ca să știm a cui e comanda.",
+    errPhone:"Adaugă numărul tău de telefon ca să te putem suna.", errAddr:"Adaugă adresa de livrare sau alege Ridic eu.",
+    errSend:"Comanda nu a putut fi trimisă. Sună la locația aleasă și o preluăm la telefon.",
+    msgPickFrom:"RIDICARE DE LA", msgDeliverTo:"LIVRARE LA", msgPickupAt:"CLIENTUL RIDICĂ DE LA",
+    msgName:"Nume", msgPhone:"Telefon client", msgNotes:"Observații",
+    count:n => n===1 ? "1 produs" : (n%100>=20 || (n>=100 && n%100===0)) ? n+" de produse" : n+" produse",
+    title:"Langoși, Pizza & Plăcinte"
+  },
+  hu:{
+    switchTo:"Română", call:"Hívás",
+    h1:"Meleg étel, most készítve, egyenesen hozzád.",
+    sub:"Ropogós lángos, pizza és meleg pite, rendeléskor készítve. Átveheted nálunk, vagy kiszállítjuk.",
+    seeMenu:"Rendelj most", callOrder:"Rendelés telefonon",
+    bestTag:"A legnépszerűbb",
+    bestName:"Sajtos-tejfölös-fokhagymás lángos",
+    bestDesc:"Belül puha, a szélén ropogós, tejföllel, fokhagymával és sok sajttal.",
+    perk1:"Rendelésre készül, nem melegen tartva", perk2:"Átvétel vagy kiszállítás", perk3:"Két egység: Vatsman Koronka és a Vár",
+    menu:"Étlap", lead:"Válaszd ki, amit szeretnél, koppints a Hozzáadás gombra, és egy perc alatt elküldheted a rendelést.",
+    add:"Hozzáadás", addBig:"Hozzáadás", best:"Legnépszerűbb",
+    about:"Rólunk",
+    about1:"A LaTine egy kis marosvásárhelyi konyha, azokkal az ételekkel, amelyeken felnőttünk. A lángost rendeléskor sütjük, a pizza egyenesen a sütőből jön, a pite pedig meleg.",
+    about2:"Minden rendelésre készül, úgyhogy adj nekünk pár percet. Megéri.",
+    visit:"Itt találsz", phone:"Telefon",
+    footer:"Az árak és a kínálat változhatnak.",
+    viewOrder:"Rendelés", yourOrder:"Rendelésed", total:"Összesen",
+    upsell:"Kérsz mellé valami innivalót?",
+    autoInfo:"Nem kell egységet választanod: a pizza a Vatsmanból jön, minden más a hozzád legközelebbi nyitva tartó egységből.",
+    preparedAt:"A rendelést itt készítjük", useGps:"Helyzetem használata",
+    whySpecial:"Az egyetlen nyitva tartó egység, ahol minden megvan.", whyOnly:"Most csak ez az egység van nyitva.",
+    whyNear:"Ez van hozzád a legközelebb (~{km} km).", whyDefault:"Koppints a gombra, és kiválasztjuk a legközelebbi egységet.",
+    whyDenied:"Nem tudtuk meghatározni a helyzeted, ezért a belvárosi egységet választottuk.", locating:"Helyzet keresése…",
+    onlyAt:"Csak itt: {loc}, {h}.", unavailable:"Most nem kapható",
+    errMix:"A kiválasztott termékek most egyik nyitva tartó egységben sem kaphatók együtt.",
+    pickTitle:"Válassz egységet", from:"Innen rendelsz", change:"Módosítás",
+    openUntil:"Most nyitva · {t}-ig", openAny:"Rendelést fogadunk", closedNext:"Most zárva · nyitunk: {d} {t}",
+    today:"ma", tomorrow:"holnap", days:["vasárnap","hétfő","kedd","szerda","csütörtök","péntek","szombat"],
+    chooseFirst:"Előbb válassz egységet fent.", removed:"A kosárból kivettük azokat a termékeket, amelyek ebben az egységben nem kaphatók.",
+    errClosed:"A választott egység most zárva van. Válassz másikat.", allClosed:"Jelenleg minden egység zárva van.",
+    whichLoc:"Melyik egységből rendelsz?", yourName:"Neved", yourPhone:"Telefonszámod",
+    mode:"Átvétel vagy kiszállítás", pickup:"Átvétel", delivery:"Kiszállítás",
+    delAddr:"Szállítási cím", notes:"Megjegyzés (nem kötelező)",
+    notesPh:"Allergiák, extra fokhagyma, csengő…",
+    send:"Rendelés elküldése", sending:"Küldés…",
+    confirmNote:"Visszahívunk vagy írunk a visszaigazolással. Fizetés átvételkor vagy kiszállításkor.",
+    doneTitle:"Rendelés elküldve!", doneText:"Hamarosan jelentkezünk a visszaigazolással. Őrizd meg a fenti rendelésszámot.",
+    doneId:"Rendelés", newOrder:"Új rendelés",
+    errLoc:"Válaszd ki, melyik egységből rendelsz.", errName:"Add meg a neved, hogy tudjuk, kié a rendelés.",
+    errPhone:"Add meg a telefonszámod, hogy fel tudjunk hívni.", errAddr:"Add meg a szállítási címet, vagy válaszd az Átvételt.",
+    errSend:"A rendelést nem sikerült elküldeni. Hívd a választott egységet, és telefonon felvesszük.",
+    msgPickFrom:"FELVÉTEL INNEN", msgDeliverTo:"KISZÁLLÍTÁS IDE", msgPickupAt:"A VEVŐ ITT VESZI ÁT",
+    msgName:"Név", msgPhone:"Vevő telefonja", msgNotes:"Megjegyzés",
+    count:n => n+" tétel",
+    title:"Lángos, Pizza & Pite"
+  }
+};
+/* ============================================== */
+
+const $ = s => document.querySelector(s);
+const ITEMS = Object.fromEntries(MENU.flatMap(c => c.items).map(i => [i.id, i]));
+const LOC = id => CONFIG.locations.find(l => l.id === id);
+let lang = "ro", cart = {}, locId = "", orderId = "";
+try { lang = localStorage.getItem("lang") === "hu" ? "hu" : "ro"; } catch(e) {}
+try { cart = JSON.parse(localStorage.getItem("cart") || "{}") || {}; } catch(e) { cart = {}; }
+for (const k in cart) if (!ITEMS[k]) delete cart[k];
+if (!LOC(locId)) locId = "";
+
+const t = k => T[lang][k];
+const money = n => (Number.isInteger(n) ? n : n.toFixed(2)) + " " + CONFIG.currency;
+const store = (k,v) => { try { localStorage.setItem(k, v); } catch(e) {} };
+const nameOf = id => ITEMS[id][lang][0];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.title = "LaTine — " + t("title");
+  document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
+  $("#langBtn").textContent = t("switchTo");
+  $("#langBtn").setAttribute("lang", lang === "ro" ? "hu" : "ro");
+  $("#cnotes").placeholder = t("notesPh");
+  $("#sendOrder").textContent = t("send");
+  $("#sheetTitle").textContent = $("#done").hidden ? t("yourOrder") : t("doneTitle");
+  $("#bestPrice").textContent = money(ITEMS.l2.price);
+  $("#err").textContent = "";
+  renderLocations();
+  renderMenu();
+}
+
+/* ---------- opening hours (always in Romania time) ---------- */
+const CAT_OF = Object.fromEntries(MENU.flatMap(c => c.items.map(i => [i.id, c.id])));
+const toMin = x => { const [h, m] = x.split(":").map(Number); return h * 60 + m; };
+function roNow(){
+  const p = {};
+  new Intl.DateTimeFormat("en-GB", { timeZone:"Europe/Bucharest", weekday:"short", hour:"2-digit", minute:"2-digit", hourCycle:"h23" })
+    .formatToParts(new Date()).forEach(x => p[x.type] = x.value);
+  return { wd: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(p.weekday), min: (+p.hour) * 60 + (+p.minute) };
+}
+function status(loc){
+  if (!loc.open) return { open:true, text:t("openAny") };
+  const n = roNow(), o = loc.open, from = toMin(o.from), to = toMin(o.to);
+  if (o.days.includes(n.wd) && n.min >= from && n.min < to) return { open:true, text:t("openUntil").replace("{t}", o.to) };
+  for (let i = 0; i < 8; i++) {
+    const wd = (n.wd + i) % 7;
+    if (!o.days.includes(wd) || (i === 0 && n.min >= from)) continue;
+    const d = i === 0 ? t("today") : i === 1 ? t("tomorrow") : t("days")[wd];
+    return { open:false, text:t("closedNext").replace("{d}", d).replace("{t}", o.from) };
+  }
+  return { open:false, text:"" };
+}
+const openLocs = () => CONFIG.locations.filter(l => status(l).open);
+const sells = (loc, cat) => !(loc.hide || []).includes(cat);
+// a product can be added if at least one OPEN location makes it
+const available = itemId => openLocs().some(l => sells(l, CAT_OF[itemId]));
+
+/* ---------- automatic location choice ---------- */
+let pos = null, gpsState = "idle"; // idle | asking | ok | denied
+function km(a, b){
+  const R = 6371, r = x => x * Math.PI / 180;
+  const dLat = r(b.lat - a.lat), dLng = r(b.lng - a.lng);
+  const h = Math.sin(dLat/2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLng/2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+// returns { loc, reason, needGps }
+function assign(){
+  const cats = [...new Set(Object.keys(cart).map(k => CAT_OF[k]))];
+  const cands = openLocs().filter(l => cats.every(c => sells(l, c)));
+  if (!cands.length) return { loc:null, reason: openLocs().length ? "none" : "closed" };
+  const special = cats.some(c => CONFIG.locations.some(l => !sells(l, c)));
+  if (cands.length === 1) return { loc:cands[0], reason: special ? "special" : "only" };
+  if (pos) {
+    const best = cands.map(l => ({ l, d: km(pos, l) })).sort((a, b) => a.d - b.d)[0];
+    return { loc:best.l, reason:"near", km:best.d };
+  }
+  return { loc: LOC(CONFIG.defaultLocation) || cands[0], reason:"default", needGps:true };
+}
+function askGps(){
+  if (!("geolocation" in navigator) || gpsState === "asking") { gpsState = "denied"; renderLocations(); return; }
+  gpsState = "asking"; renderLocations();
+  navigator.geolocation.getCurrentPosition(
+    p => { pos = { lat:p.coords.latitude, lng:p.coords.longitude }; gpsState = "ok"; renderLocations(); },
+    () => { gpsState = "denied"; renderLocations(); },
+    { enableHighAccuracy:false, timeout:10000, maximumAge:600000 }
+  );
+}
+
+function notice(msg){ const n = $("#notice"); n.textContent = msg || ""; n.hidden = !msg; }
+
+function renderLocations(){
+  $("#lcards").innerHTML = CONFIG.locations.map(l => {
+    const st = status(l);
+    return `<div class="lcard${st.open ? "" : " closed"}">
+      <b>${esc(l.name)}</b><span class="a">${esc(l.address[lang])}</span>
+      <span class="st">${esc(st.text)}</span>${l.note ? `<span class="nt">${esc(l.note[lang])}</span>` : ""}</div>`;
+  }).join("");
+  notice(openLocs().length ? "" : t("allClosed"));
+  $("#locs").innerHTML = CONFIG.locations.map(l => `
+    <div class="loc">
+      <h3>${esc(l.name)}</h3>
+      <p>${esc(l.address[lang])}</p>
+      ${l.hours ? `<p>${esc(l.hours[lang])}</p>` : ""}
+      ${l.note ? `<p>${esc(l.note[lang])}</p>` : ""}
+      <p>${t("phone")}: <a href="tel:${esc(l.phone)}">${esc(l.phoneDisplay)}</a></p>
+    </div>`).join("");
+
+  const a = assign();
+  locId = a.loc ? a.loc.id : "";
+  let why = "";
+  if (a.reason === "special") why = t("whySpecial");
+  else if (a.reason === "only") why = t("whyOnly");
+  else if (a.reason === "near") why = t("whyNear").replace("{km}", a.km.toFixed(1).replace(".", lang === "ro" ? "," : ","));
+  else if (a.reason === "default") why = gpsState === "asking" ? t("locating") : gpsState === "denied" ? t("whyDenied") : t("whyDefault");
+  const gpsBtn = a.needGps && gpsState !== "asking" ? `<button type="button" id="gpsBtn">📍 ${t("useGps")}</button>` : "";
+  $("#fromBox").innerHTML = a.loc
+    ? `<div><span>${t("preparedAt")}</span><b>${esc(a.loc.name)}</b><span>${esc(why)}</span></div>${gpsBtn}`
+    : `<div><b>${t(a.reason === "closed" ? "allClosed" : "errMix")}</b></div>`;
+  updateCall();
+}
+function updateCall(){ const l = LOC(locId); $("#sheetCall").href = l ? "tel:" + l.phone : "#visit"; }
+
+function renderMenu(){
+  $("#cats").innerHTML = MENU.map((c, i) => `<a href="#cat-${i}">${c.cat[lang]}</a>`).join("");
+  $("#menuList").innerHTML = MENU.map((c, i) => {
+    const on = openLocs().some(l => sells(l, c.id));
+    const only = CONFIG.locations.filter(l => sells(l, c.id));
+    const hint = !on && only.length < CONFIG.locations.length && only[0] && only[0].hours
+      ? `<p class="unav">${esc(t("onlyAt").replace("{loc}", only[0].name).replace("{h}", only[0].hours[lang]))}</p>` : "";
+    return `
+    <div class="cat${on ? "" : " off"}" id="cat-${i}">
+      <h3>${c.cat[lang]}${c.note[lang] ? ` <small>${c.note[lang]}</small>` : ""}</h3>${hint}
+      <div class="items">${c.items.map(it => `
+        <div class="item">
+          <h4>${it[lang][0]}${it.best ? `<span class="badge">${t("best")}</span>` : ""}</h4><span class="price">${money(it.price)}</span>
+          <p>${it[lang][1]}</p>
+          <div class="qty" data-id="${it.id}"></div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+  }).join("");
+  renderCart();
+}
+
+function renderCart(){
+  document.querySelectorAll(".qty").forEach(el => {
+    const id = el.dataset.id, q = cart[id] || 0, n = nameOf(id);
+    el.innerHTML = q
+      ? `<span class="stepper"><button type="button" data-d="-1" aria-label="− ${esc(n)}">−</button><span aria-live="polite">${q}</span><button type="button" data-d="1" aria-label="+ ${esc(n)}">+</button></span>`
+      : available(id)
+        ? `<button class="add" type="button" data-d="1" aria-label="${t("add")}: ${esc(n)}">${el.dataset.big ? t("addBig") : t("add")}</button>`
+        : `<span class="soldout">${t("unavailable")}</span>`;
+  });
+  const count = Object.values(cart).reduce((a,b)=>a+b,0);
+  const total = Object.entries(cart).reduce((s,[id,q]) => s + ITEMS[id].price*q, 0);
+  $("#cartCount").textContent = t("count")(count);
+  $("#cartTotal").textContent = money(total);
+  $("#sheetTotal").textContent = money(total);
+  $("#cartbar").classList.toggle("show", count > 0);
+  $("#lines").innerHTML = Object.entries(cart).map(([id,q]) =>
+    `<li><span>${q} × ${esc(nameOf(id))}</span><span>${money(ITEMS[id].price*q)}</span></li>`).join("");
+  const hasDrink = Object.keys(cart).some(id => ITEMS[id].drink);
+  $("#upsell").hidden = hasDrink || !count;
+  $("#upsellChips").innerHTML = MENU.flatMap(c => c.items).filter(i => i.drink && available(i.id))
+    .map(i => `<button type="button" data-up="${i.id}">+ ${esc(i[lang][0])} · ${money(i.price)}</button>`).join("");
+  renderLocations(); // the chosen location depends on what's in the cart
+  if (!count && $("#done").hidden) closeSheet();
+}
+
+document.addEventListener("click", e => {
+  if (e.target.closest("#gpsBtn")) { askGps(); return; }
+  const up = e.target.closest("[data-up]");
+  if (up && !available(up.dataset.up)) return;
+  if (up) { cart[up.dataset.up] = (cart[up.dataset.up]||0) + 1; store("cart", JSON.stringify(cart)); renderCart(); return; }
+  const b = e.target.closest("[data-d]");
+  if (!b) return;
+  const id = b.closest(".qty").dataset.id;
+  if (+b.dataset.d > 0 && !available(id)) return;
+  cart[id] = Math.max(0, (cart[id]||0) + +b.dataset.d);
+  if (!cart[id]) delete cart[id];
+  store("cart", JSON.stringify(cart));
+  renderCart();
+});
+
+$("#langBtn").onclick = () => { lang = lang === "ro" ? "hu" : "ro"; store("lang", lang); applyLang(); };
+
+function openSheet(){
+  $("#sheet").classList.add("open"); $("#scrim").classList.add("open"); $("#closeCart").focus();
+  if (gpsState === "idle" && assign().needGps) askGps(); // only asks when two open locations could make the order
+}
+function closeSheet(){ $("#sheet").classList.remove("open"); $("#scrim").classList.remove("open"); }
+$("#openCart").onclick = openSheet;
+$("#closeCart").onclick = closeSheet;
+$("#scrim").onclick = closeSheet;
+$("#sheetCall").addEventListener("click", () => { if (!LOC(locId)) closeSheet(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+
+document.querySelectorAll('input[name=mode]').forEach(r => r.onchange = () => {
+  $("#addrWrap").hidden = document.querySelector('input[name=mode]:checked').value !== "delivery";
+});
+
+function makeOrderId(loc){
+  const d = new Date(), pad = n => String(n).padStart(2,"0");
+  return `L${CONFIG.locations.indexOf(loc)+1}-${pad(d.getHours())}${pad(d.getMinutes())}-${pad(Math.floor(Math.random()*100))}`;
+}
+
+function buildOrder(){
+  const mode = document.querySelector('input[name=mode]:checked').value;
+  const name = $("#cname").value.trim(), phone = $("#cphone").value.trim();
+  const addr = $("#caddr").value.trim(), notes = $("#cnotes").value.trim();
+  const a = assign(), loc = a.loc;
+  if (!loc) return { error: t(a.reason === "closed" ? "allClosed" : "errMix") };
+  locId = loc.id;
+  if (!name) return { error: t("errName") };
+  if (!phone) return { error: t("errPhone") };
+  if (mode === "delivery" && !addr) return { error: t("errAddr") };
+  if (!orderId) orderId = makeOrderId(loc);
+  const ol = T[CONFIG.orderLanguage] ? CONFIG.orderLanguage : "ro", L = T[ol];
+  const items = Object.entries(cart).map(([id,q]) => ({ id, name: ITEMS[id][ol][0], qty: q, unit_price: ITEMS[id].price, line_total: ITEMS[id].price*q }));
+  const total = items.reduce((s,i) => s + i.line_total, 0);
+  const itemsText = items.map(i => `${i.qty} x ${i.name} - ${money(i.line_total)}`).join("\n");
+  let m = `#${orderId}\n`;
+  m += mode === "delivery"
+    ? `>> ${L.msgPickFrom}: ${loc.name.toUpperCase()} <<\n${loc.address[ol]}\n\n>> ${L.msgDeliverTo}:\n${addr}\n`
+    : `>> ${L.msgPickupAt}: ${loc.name.toUpperCase()} <<\n`;
+  m += `${L.msgName}: ${name}\n${L.msgPhone}: ${phone}\n`;
+  if (notes) m += `${L.msgNotes}: ${notes}\n`;
+  m += `\n${itemsText}\n${L.total}: ${money(total)}`;
+  return { data: {
+    order_id: orderId, created_at: new Date().toISOString(),
+    assign_reason: a.reason + (a.km ? " " + a.km.toFixed(1) + " km" : ""),
+    location_id: loc.id, location_name: loc.name, location_address: loc.address[ol], location_phone: loc.phone,
+    mode, needs_courier: mode === "delivery" ? "yes" : "no",
+    courier_phone: mode === "delivery" ? CONFIG.courierPhone : "",
+    customer_name: name, customer_phone: phone,
+    delivery_address: mode === "delivery" ? addr : "",
+    notes, items_text: itemsText, items_json: JSON.stringify(items),
+    total, currency: CONFIG.currency, customer_language: lang, message: m
+  }};
+}
+
+$("#sendOrder").onclick = async () => {
+  const r = buildOrder();
+  $("#err").textContent = r.error || "";
+  if (r.error) return;
+  const b = $("#sendOrder");
+  b.disabled = true; b.textContent = t("sending");
+  try {
+    if (!CONFIG.webhookUrl) throw new Error("no webhook");
+    // form-encoded + no-cors: the browser sends the order without needing
+    // Make.com to allow cross-site replies. It only fails on a real network error.
+    await fetch(CONFIG.webhookUrl, { method:"POST", mode:"no-cors", body: new URLSearchParams(r.data) });
+    showDone();
+  } catch (e) {
+    $("#err").textContent = t("errSend");
+  } finally {
+    b.disabled = false; b.textContent = t("send");
+  }
+};
+
+function showDone(){
+  $("#doneId").textContent = `${t("doneId")} #${orderId}`;
+  $("#orderForm").hidden = true; $("#done").hidden = false;
+  $("#sheetTitle").textContent = t("doneTitle");
+  cart = {}; store("cart", "{}");
+  renderCart();
+}
+$("#newOrder").onclick = () => {
+  orderId = ""; $("#cnotes").value = "";
+  $("#orderForm").hidden = false; $("#done").hidden = true;
+  $("#sheetTitle").textContent = t("yourOrder");
+  closeSheet();
+};
+
+$("#yr").textContent = new Date().getFullYear();
+applyLang();
+// re-check opening hours every minute
+setInterval(() => renderMenu(), 60000);
+</script>
+</body>
+</html>
