@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LaTine Livrari</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LaTine Livrari">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#B3261E">
+<link rel="apple-touch-icon" href="/livrari-icon-180.png">
+<link rel="icon" type="image/png" href="/livrari-icon-192.png">
+<link rel="manifest" href="/livrari.webmanifest">
+<style>
+  html,body{margin:0;height:100%;background:#fff}
+  body{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  iframe{display:block;border:0;width:100%;height:100%}
+  #splash{position:fixed;inset:0;z-index:2;background:#B3261E;display:grid;place-content:center;justify-items:center;gap:14px;
+    font:800 28px/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;transition:opacity .35s ease}
+  #splash.gone{opacity:0;pointer-events:none}
+  #splash img{width:96px;height:96px;border-radius:22px}
+  @media (prefers-color-scheme: dark){html,body{background:#1E0B0D}}
+</style>
+</head>
+<body>
+<div id="splash"><img src="/livrari-icon-180.png" alt=""><span>LaTine</span></div>
+<iframe id="app" title="LaTine Livrari" allow="clipboard-write"></iframe>
+<script>
+  // Your dashboard link (ending in /exec)
+  var EXEC = "https://script.google.com/macros/s/AKfycbxn6rs3Upwmzvr5VuAld6XDNHIN_Ru_X1E9-3VXZoEl7AsZo_jVz54e0iYV-mPQYmQw/exec";
+  var KEY = "latine_token", tok = null;
+  try { tok = localStorage.getItem(KEY); } catch (e) {}
+  var ok = function (t) { return typeof t === "string" && /^[0-9a-f-]{36}$/i.test(t); };
+  var frame = document.getElementById("app");
+  frame.src = EXEC + (ok(tok) ? "?t=" + encodeURIComponent(tok) : "");
+  frame.addEventListener("load", function () {
+    setTimeout(function () { document.getElementById("splash").className = "gone"; }, 250);
+  });
+  // the dashboard tells us when someone logs in or out, so the login is remembered here
+  window.addEventListener("message", function (e) {
+    var host = "";
+    try { host = new URL(e.origin).hostname; } catch (x) { return; }
+    if (!/\.googleusercontent\.com$/.test(host) && host !== "script.google.com") return;
+    var d = e.data;
+    if (!d || d.type !== "latine-token") return;
+    try {
+      if (ok(d.token)) localStorage.setItem(KEY, d.token);
+      else if (d.token === null) localStorage.removeItem(KEY);
+    } catch (x) {}
+  });
+</script>
+</body>
+</html>
